@@ -84,9 +84,9 @@ def valid_creditcard_test(browser, valid_card,  test_card):
     actual_text = message_element.text
     expected_substring = "Your payment was successful"
     if valid_card == True:
-        assert expected_substring in actual_text, f"Expected text to include: '{expected_substring}', but got: '{actual_text}'"
+        assert expected_substring in actual_text, f"Expected text to include: {expected_substring}, but got: {actual_text}"
     else:
-        assert expected_substring not in actual_text, f"Expected text not to include: '{expected_substring}', but got: '{actual_text}'"
+        assert expected_substring not in actual_text, f"Expected text not to include: {expected_substring}, but got: {actual_text}"
     driver.quit()
 
 
