@@ -30,7 +30,7 @@ jobs:
         run: newman run weather_shopper.postman_collection.json -r html --reporter-html-export report.html
 
       - name: Upload Postman Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: postman-report
           path: report.html
@@ -50,7 +50,7 @@ jobs:
           flags: --out json=results.json
 
       - name: Upload K6 Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: k6-report
           path: results.json
