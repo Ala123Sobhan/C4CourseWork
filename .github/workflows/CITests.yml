@@ -1,0 +1,60 @@
+name: Run K6 and Postman Tests
+
+on:
+  push:
+    branches:
+      - master
+      - ci_setup
+  workflow_dispatch:
+
+jobs:
+  postman_tests:
+    name: Postman Tests
+    runs-on: ubuntu-latest
+    needs: k6_load_test  # Ensure K6 test runs before Postman tests
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Install Newman HTML Reporter
+        run: npm install -g newman-reporter-html
+
+      - name: Run Postman Tests
+        run: newman run weather_shopper.postman_collection.json -r html --reporter-html-export report.html
+
+      - name: Upload Postman Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: postman-report
+          path: report.html
+
+  k6_load_test:
+    name: K6 Load Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v3
+
+      - name: Run K6 Test
+        uses: grafana/k6-action@v0.2.0
+        with:
+          filename: load_test.js
+          flags: --out json=results.json
+
+      - name: Upload K6 Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: k6-report
+          path: results.json
+
+  

@@ -4,8 +4,8 @@ import { check, sleep } from 'k6';
 export let options = {
   stages: [
     { duration: '5s', target: 10 },  // ramp-up from 0 to 10 virtual users in 1 minute - keeping it sec for test purposes
-    { duration: '20s', target: 10 },  // stay at 10 virtual users for 5 minutes
-    { duration: '5s', target: 0 },   // ramp-down to 0 users in 1 minute
+    { duration: '20s', target: 10 },  // stay at 10 virtual users 
+    { duration: '5s', target: 0 },   // ramp-down to 0 users 
   ],
   thresholds: {
     http_req_duration: ['p(95)<500'], // 95% of requests should be under 500ms
