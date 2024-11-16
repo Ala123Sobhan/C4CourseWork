@@ -86,7 +86,11 @@ def valid_creditcard_test(browser, valid_card,  test_card):
     if valid_card == True:
         assert expected_substring in actual_text, f"Expected text to include: {expected_substring}, but got: {actual_text}"
     else:
-        assert expected_substring not in actual_text, f"Expected text not to include: {expected_substring}, but got: {actual_text}"
+        current_url = driver.current_url
+        print(current_url)
+        if "/confirmation" in current_url: 
+            raise AssertionError(f"Test failed: Unexpected redirection to confirmation page. For payment declined payment method; payment should fail")
+            assert expected_substring not in actual_text, f"Expected text not to include: {expected_substring}, but got: {actual_text}"
     driver.quit()
 
 
