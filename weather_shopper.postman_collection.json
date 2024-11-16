@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "02021b0f-3eaf-494a-8807-309626dc6eec",
+		"name": "weather_shopper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16000441"
+	},
+	"item": [
+		{
+			"name": "Get stripe token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"check status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"// Check if the token exists and is a string\r",
+							"pm.test(\"check if token is present and is a string\", function(){\r",
+							"    pm.expect(response.id).to.exist.and.to.be.a('string'); \r",
+							"    pm.collectionVariables.set(\"token\",response.id);\r",
+							"    console.log(pm.collectionVariables.get(\"token\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response schema is valid\", function () {\r",
+							"    let schema = {\r",
+							"        type: \"object\",\r",
+							"        properties: {\r",
+							"            id: { type: \"string\" },\r",
+							"            object: { type: \"string\" },\r",
+							"            card: {\r",
+							"                type: \"object\",\r",
+							"                properties: {\r",
+							"                    id: { type: \"string\" },\r",
+							"                    object: { type: \"string\" },\r",
+							"                    exp_month: {type: \"integer\"},\r",
+							"                    exp_year: {type: \"integer\"}\r",
+							"                    \r",
+							"                },\r",
+							"                required: [\"id\", \"object\"] \r",
+							"            },\r",
+							"            client_ip: { type: \"string\" },\r",
+							"            created: { type: \"number\" },\r",
+							"            email: { type: \"string\" },\r",
+							"            livemode: { type: \"boolean\" },\r",
+							"            type: { type: \"string\" },\r",
+							"            used: { type: \"boolean\" }\r",
+							"        },\r",
+							"        required: [\"id\", \"object\", \"card\", \"client_ip\", \"created\", \"email\", \"livemode\", \"type\", \"used\"] // Add required properties for the root object as needed\r",
+							"    };\r",
+							"\r",
+							"    pm.expect(tv4.validate(response, schema)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US"
+					},
+					{
+						"key": "content-type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "origin",
+						"value": "https://checkout.stripe.com"
+					},
+					{
+						"key": "priority",
+						"value": "u=1, i"
+					},
+					{
+						"key": "referer",
+						"value": "https://checkout.stripe.com/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-site"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "validation_type",
+							"value": "card",
+							"type": "text"
+						},
+						{
+							"key": "payment_user_agent",
+							"value": "Stripe Checkout v3 (stripe.js/78ef418)",
+							"type": "text"
+						},
+						{
+							"key": "user_agent",
+							"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+							"type": "text"
+						},
+						{
+							"key": "device_id",
+							"value": "d5374074-a8a2-46e7-90eb-b898b570859f",
+							"type": "text"
+						},
+						{
+							"key": "referrer",
+							"value": "https://weathershopper.pythonanywhere.com/cart",
+							"type": "text"
+						},
+						{
+							"key": "time_checkout_opened",
+							"value": "1731693827",
+							"type": "text"
+						},
+						{
+							"key": "time_checkout_loaded",
+							"value": "1731693826",
+							"type": "text"
+						},
+						{
+							"key": "card[number]",
+							"value": "4242 4242 4242 4242",
+							"type": "text"
+						},
+						{
+							"key": "card[cvc]",
+							"value": "242",
+							"type": "text"
+						},
+						{
+							"key": "card[exp_month]",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "card[exp_year]",
+							"value": "2028",
+							"type": "text"
+						},
+						{
+							"key": "card[name]",
+							"value": "a@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "card[address_zip]",
+							"value": "10462",
+							"type": "text"
+						},
+						{
+							"key": "time_on_page",
+							"value": "20390",
+							"type": "text"
+						},
+						{
+							"key": "guid",
+							"value": "40649948-a306-4925-8513-4f48114b9dcd25fb29",
+							"type": "text"
+						},
+						{
+							"key": "muid",
+							"value": "7c98d31f-dcbe-4580-90fd-cc052d2f21cc56b2bd",
+							"type": "text"
+						},
+						{
+							"key": "sid",
+							"value": "2f822a67-972c-4882-9273-ff96a07258be5fbff4",
+							"type": "text"
+						},
+						{
+							"key": "key",
+							"value": "pk_test_TYooMQauvdEDq54NiTphI7jx",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.stripe.com/v1/tokens",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stripe",
+						"com"
+					],
+					"path": [
+						"v1",
+						"tokens"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://api.stripe.com/v1/tokens' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'accept-language: en-US' \\\r\n  -H 'content-type: application/x-www-form-urlencoded' \\\r\n  -H 'origin: https://checkout.stripe.com' \\\r\n  -H 'priority: u=1, i' \\\r\n  -H 'referer: https://checkout.stripe.com/' \\\r\n  -H 'sec-ch-ua: \"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\"' \\\r\n  -H 'sec-ch-ua-mobile: ?0' \\\r\n  -H 'sec-ch-ua-platform: \"Windows\"' \\\r\n  -H 'sec-fetch-dest: empty' \\\r\n  -H 'sec-fetch-mode: cors' \\\r\n  -H 'sec-fetch-site: same-site' \\\r\n  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36' \\\r\n  --data-raw 'email=a%40gmail.com&validation_type=card&payment_user_agent=Stripe+Checkout+v3+(stripe.js%2F78ef418)&user_agent=Mozilla%2F5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML%2C+like+Gecko)+Chrome%2F130.0.0.0+Safari%2F537.36&device_id=d5374074-a8a2-46e7-90eb-b898b570859f&referrer=https%3A%2F%2Fweathershopper.pythonanywhere.com%2Fcart&time_checkout_opened=1731693827&time_checkout_loaded=1731693826&card[number]=4242+4242+4242+4242&card[cvc]=242&card[exp_month]=4&card[exp_year]=2028&card[name]=a%40gmail.com&card[address_zip]=10462&time_on_page=20390&guid=40649948-a306-4925-8513-4f48114b9dcd25fb29&muid=7c98d31f-dcbe-4580-90fd-cc052d2f21cc56b2bd&sid=2f822a67-972c-4882-9273-ff96a07258be5fbff4&key=pk_test_TYooMQauvdEDq54NiTphI7jx'"
+			},
+			"response": []
+		},
+		{
+			"name": "Make Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check order status is 200\", function(){\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response body HTML contains the 'Payment Success' text\", function () {\r",
+							"    var responseBody = pm.response.text();\r",
+							"    pm.expect(responseBody).to.include('PAYMENT SUCCESS');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Origin",
+						"value": "https://weathershopper.pythonanywhere.com"
+					},
+					{
+						"key": "Referer",
+						"value": "https://weathershopper.pythonanywhere.com/cart"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "document"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "navigate"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-origin"
+					},
+					{
+						"key": "Sec-Fetch-User",
+						"value": "?1"
+					},
+					{
+						"key": "Upgrade-Insecure-Requests",
+						"value": "1"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "stripeToken",
+							"value": "{{token}}",
+							"type": "text"
+						},
+						{
+							"key": "stripeTokenType",
+							"value": "card",
+							"type": "text"
+						},
+						{
+							"key": "stripeEmail",
+							"value": "{{email}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://weathershopper.pythonanywhere.com/confirmation",
+					"protocol": "https",
+					"host": [
+						"weathershopper",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"confirmation"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://weathershopper.pythonanywhere.com/confirmation' \\\r\n  -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \\\r\n  -H 'Accept-Language: en-US,en;q=0.9' \\\r\n  -H 'Cache-Control: max-age=0' \\\r\n  -H 'Connection: keep-alive' \\\r\n  -H 'Content-Type: application/x-www-form-urlencoded' \\\r\n  -H 'Origin: https://weathershopper.pythonanywhere.com' \\\r\n  -H 'Referer: https://weathershopper.pythonanywhere.com/cart' \\\r\n  -H 'Sec-Fetch-Dest: document' \\\r\n  -H 'Sec-Fetch-Mode: navigate' \\\r\n  -H 'Sec-Fetch-Site: same-origin' \\\r\n  -H 'Sec-Fetch-User: ?1' \\\r\n  -H 'Upgrade-Insecure-Requests: 1' \\\r\n  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36' \\\r\n  -H 'sec-ch-ua: \"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\"' \\\r\n  -H 'sec-ch-ua-mobile: ?0' \\\r\n  -H 'sec-ch-ua-platform: \"Windows\"' \\\r\n  --data-raw 'stripeToken=tok_1QLTsI2eZvKYlo2C8N9rd6Ba&stripeTokenType=card&stripeEmail=a%40gmail.com'"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": "ala+test_101@gmail.com",
+			"type": "string"
+		}
+	]
+}
