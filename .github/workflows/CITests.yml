@@ -1,4 +1,4 @@
-name: Run K6 and Postman Tests
+name: Run Seleniun, K6 and Postman Tests
 
 on:
   push:
