@@ -1,4 +1,4 @@
-name: Run K6 and Postman Tests
+name: Run Seleniun, K6 and Postman Tests
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
   postman_tests:
     name: Postman Tests
     runs-on: ubuntu-latest
-    needs: selenium_tests
+    # needs: selenium_tests
     steps:
       - name: Checkout Repository Code
         uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
   k6_load_test:
     name: K6 Load Test
     runs-on: ubuntu-latest
-    needs: postman_tests
+    # needs: postman_tests
     steps:
       - name: Checkout Repository Code
         uses: actions/checkout@v3
